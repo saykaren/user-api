@@ -5,19 +5,16 @@ import './App.css';
 
 var karenVariable = 0;
 
-function App() {
+const App = () => {
 
   const [page, setPage] = useState(1);
-  const [commitHistory, setCommitHistory] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState();
   const [userInfo, setUserInfo] = useState([]);
   const [userID, setUserID] = useState();
+  const [picture, setPicture] = useState();
 
-  const loadMoreCommit = ()=>{
-    setPage(page + 1);
-    karenVariable = commitHistory;
-  };
+ 
 
   useEffect(()=> {
     fetch(
@@ -31,11 +28,11 @@ function App() {
     )
       .then(res=>res.json())
       .then(response=>{
-        setCommitHistory(response);
         setIsLoading(false);
         setEmail(response.results[0].email);
         setUserInfo(response.results[0]);
         setUserID([response.results[0].id]);
+        setPicture([response.results[0].picture]);
       })
       .catch(error=>console.log(error));
     }, [page]);
@@ -43,23 +40,63 @@ function App() {
     let userRegistration = userInfo.name;
     let userIDKaren = userInfo.id;
     let userIDNumber = userIDKaren;
-  console.log(userInfo);
+  console.log({userInfo});
 //   console.log(userRegistration);
 //   console.log(userIDKaren);
 //   console.log(userIDNumber);
 console.log(userID);
+console.log(picture);
 
+  const updating = () =>{
+    fetch( 
+      'https://randomuser.me/api/',
+    )
+    .then(res=>res.json())
+    .then(response=>{
+      setIsLoading(false);
+      setEmail(response.results[0].email);
+      setUserInfo(response.results[0]);
+      setUserID([response.results[0].id]);
+      setPicture([response.results[0].picture]);
+    })
+    .catch(error=>console.log(error));
+
+  }
 
   return (
     <div className="App">
+      
       <h1>API calls with React hooks</h1>
-      {isLoading && <p>Wait I'm Loading comments for you</p>}
-      Karen Variable {karenVariable}<br></br> 
-      Page {page}<br></br>
       Loading {isLoading ? <div>yes</div> : <div>nope</div>}
-      Email: {email}<br></br>
-      User Info: {userInfo.gender}<br></br>
-      User Phone: {userInfo.phone}
+      {isLoading && <p>Wait I'm Loading comments for you</p>}
+      <div className="largeBox">
+        <div className="box">
+          Karen Variable {karenVariable}
+        </div>
+        <div className="box">
+          Page {page}
+        </div>
+        <div className="box">
+          Email: {email}
+        </div>
+        <div className="box">
+          User Info: {userInfo.gender}
+        </div>
+        <div className="box">
+          User Phone: {userInfo.phone}
+        </div>
+        <div className="box">
+
+        </div>
+      </div> 
+      
+      
+      <button onClick={updating}>
+        Click me
+      </button>
+      
+      
+      
 
     </div>
   );
