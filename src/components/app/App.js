@@ -1,9 +1,6 @@
 // import React from 'react';
 import React, { useState, useEffect } from 'react';
-import ReactDom from 'react-dom';
 import './App.css';
-
-var karenVariable = 0;
 
 const App = () => {
 
@@ -18,9 +15,7 @@ const App = () => {
     }
   );
   const [newBox, setNewBox] = useState("https://www.fillmurray.com/300/200");
-
- 
-
+  
   useEffect(()=> {
     fetch(
       'https://randomuser.me/api/',
@@ -63,26 +58,20 @@ console.log(picture);
       setEmail(response.results[0].email);
       setUserInfo(response.results[0]);
       setUserID([response.results[0].id]);
-      setPicture([response.results[0].picture]);
       updatePicture();
+      setPicture([response.results[0].picture]);
+      // setTimeout(updatePicture, 200);
     })
     .catch(error=>console.log(error));
-    updatePicture();
   }
 
-  const updateStyle = ()=>{
-    console.log('here');
-    setMyStyle({
-      border: '3px solid purple'
-    });
-  }
 
   const updatePicture = ()=>{
     (userInfo.gender === "female") ? 
     setNewBox("https://suitesculturelles.files.wordpress.com/2015/04/parks-and-recreation-memes-7.jpg")  : 
     setNewBox("https://www.fillmurray.com/300/200");
     (userInfo.gender === "female") ?
-    updateStyle() : setMyStyle({border: '2px solid orange'});
+    setMyStyle({border: '2px solid #B9B0B2'}) : setMyStyle({border: '2px solid #B7673C'});
   }
   return (
     <div className="App">
@@ -92,9 +81,6 @@ console.log(picture);
       
       {isLoading && <p>Wait I'm Loading comments for you</p>}
       <div className="largeBox" style={myStyle}>
-        <div className="box">
-          Karen Variable {karenVariable}
-        </div>
         <div className="box">
           Email: {email}
         </div>
@@ -116,7 +102,6 @@ console.log(picture);
       </button>
     </div>
   );
-
 }
 
 export default App;
