@@ -5,7 +5,9 @@
   height: 100vh;
 }
 
-
+.userImage {
+  width: 20rem;
+}
 
 .App-header {
   background-color: #282c34;

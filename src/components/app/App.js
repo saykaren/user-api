@@ -13,6 +13,11 @@ const App = () => {
   const [userInfo, setUserInfo] = useState([]);
   const [userID, setUserID] = useState();
   const [picture, setPicture] = useState();
+  const [myStyle, setMyStyle] = useState({
+    border: '1px solid black'
+    }
+  );
+  const [newBox, setNewBox] = useState("https://www.fillmurray.com/300/200");
 
  
 
@@ -40,6 +45,7 @@ const App = () => {
     let userRegistration = userInfo.name;
     let userIDKaren = userInfo.id;
     let userIDNumber = userIDKaren;
+    
   console.log({userInfo});
 //   console.log(userRegistration);
 //   console.log(userIDKaren);
@@ -58,23 +64,36 @@ console.log(picture);
       setUserInfo(response.results[0]);
       setUserID([response.results[0].id]);
       setPicture([response.results[0].picture]);
+      updatePicture();
     })
     .catch(error=>console.log(error));
-
+    updatePicture();
   }
 
+  const updateStyle = ()=>{
+    console.log('here');
+    setMyStyle({
+      border: '3px solid purple'
+    });
+  }
+
+  const updatePicture = ()=>{
+    (userInfo.gender === "female") ? 
+    setNewBox("https://suitesculturelles.files.wordpress.com/2015/04/parks-and-recreation-memes-7.jpg")  : 
+    setNewBox("https://www.fillmurray.com/300/200");
+    (userInfo.gender === "female") ?
+    updateStyle() : setMyStyle({border: '2px solid orange'});
+  }
   return (
     <div className="App">
       
       <h1>API calls with React hooks</h1>
-      Loading {isLoading ? <div>yes</div> : <div>nope</div>}
+
+      
       {isLoading && <p>Wait I'm Loading comments for you</p>}
-      <div className="largeBox">
+      <div className="largeBox" style={myStyle}>
         <div className="box">
           Karen Variable {karenVariable}
-        </div>
-        <div className="box">
-          Page {page}
         </div>
         <div className="box">
           Email: {email}
@@ -86,7 +105,8 @@ console.log(picture);
           User Phone: {userInfo.phone}
         </div>
         <div className="box">
-
+          <img src={newBox} alt="user" className="userImage"/>
+          
         </div>
       </div> 
       
@@ -94,10 +114,6 @@ console.log(picture);
       <button onClick={updating}>
         Click me
       </button>
-      
-      
-      
-
     </div>
   );
 
